@@ -53,6 +53,7 @@ pthread_mutex_t energyPossiblyAddedMutex;
 bool yodaSent = false;
 bool zetSent = false;
 std::vector<int> sendAck;
+int provider;
 
 #define pretty_print(format, ...) fprintf(stderr, "%6d P%d %s " format, my_time, my_rank, my_rank < yoda_count ? "Yoda" : "Zet", ##__VA_ARGS__)
 
@@ -311,7 +312,7 @@ void zet() {
 
 int main(int argc, char **argv) {
 
-    MPI_Init(&argc, &argv);
+    MPI_Init_thread(&argc, &argv, MPI_THREAD_MULTIPLE, &provider);
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
     MPI_Comm_size(MPI_COMM_WORLD, &max_rank);
 
